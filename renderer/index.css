@@ -6,6 +6,7 @@
 
 /* ── TOKENS ─────────────────────────────────────────────────────────────── */
 :root {
+  color-scheme: dark;
   --card-sh:  6px 10px 20px rgba(0,0,0,.55),
               -3px -3px 10px rgba(124,58,237,.12),
               inset 0 1px 0 rgba(255,255,255,.09);
@@ -23,6 +24,15 @@ body {
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
 }
+
+/* Force tous les champs de formulaire en thème sombre */
+input, textarea, select {
+  color-scheme: dark;
+  color: #ffffff;
+  -webkit-text-fill-color: #ffffff;
+}
+/* Les boutons héritent de la couleur parente — ne pas forcer -webkit-text-fill-color */
+button { color-scheme: dark; }
 
 /* ── SCROLLBAR ──────────────────────────────────────────────────────────── */
 ::-webkit-scrollbar       { width: 4px; }
@@ -163,17 +173,27 @@ body {
 .plan-input {
   width: 100%;
   padding: 11px 14px;
-  background: rgba(255,255,255,.05);
-  border: 1px solid rgba(255,255,255,.1);
+  background: #1a0e38;
+  border: 1px solid rgba(255,255,255,.12);
   border-radius: 10px;
   color: #ffffff;
+  -webkit-text-fill-color: #ffffff;
   font-size: 13px;
   font-family: inherit;
   outline: none;
   transition: border-color .15s;
+  caret-color: #a78bfa;
 }
-.plan-input:focus  { border-color: #7c3aed; }
-.plan-input::placeholder { color: #374151; }
+.plan-input:focus  { border-color: #7c3aed; background: #200f44; }
+.plan-input::placeholder { color: #4b5563; -webkit-text-fill-color: #4b5563; }
+
+/* Autofill WebKit — garde le fond sombre même quand Chrome force le jaune */
+.plan-input:-webkit-autofill,
+.plan-input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 999px #1a0e38 inset;
+  -webkit-text-fill-color: #ffffff;
+  caret-color: #a78bfa;
+}
 
 /* ── NAV ────────────────────────────────────────────────────────────────── */
 .nav-btn {

@@ -96,10 +96,15 @@ export default function Settings() {
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <input
             className="plan-input"
-            type="time"
+            type="text"
             defaultValue={settings.reminder_time || '21:30'}
-            onBlur={e => save('reminder_time', e.target.value)}
-            style={{ width: 120 }}
+            onBlur={e => {
+              const v = e.target.value.trim()
+              if (/^\d{2}:\d{2}$/.test(v)) save('reminder_time', v)
+              else e.target.value = settings.reminder_time || '21:30'
+            }}
+            placeholder="21:30"
+            style={{ width: 100 }}
           />
           <span style={{ fontSize: 12, color: '#6b7280' }}>
             Heure de notification pour planifier le lendemain
