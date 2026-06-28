@@ -1,0 +1,457 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root{
+  --void:#0e0820;
+  --deep:#160d30;
+  --clay-a:#2a1860;
+  --clay-b:#371e78;
+  --core:#7c3aed;
+  --light:#a78bfa;
+  --t1:#ffffff;
+  --t2:#c4b5fd;
+  --t3:#6b7280;
+  --t4:#374151;
+  --ok:#10b981;
+  --warn:#f59e0b;
+  --err:#ef4444;
+  --card-sh:6px 10px 20px rgba(0,0,0,.55),-3px -3px 10px rgba(124,58,237,.12),inset 0 1px 0 rgba(255,255,255,.09);
+  --btn-sh:0 4px 12px rgba(124,58,237,.45);
+  --glow:0 0 14px rgba(124,58,237,.5);
+}
+
+body{font-family:'Inter',sans-serif;background:var(--void);color:var(--t1);min-height:600px}
+
+.app{max-width:680px;margin:0 auto;padding:0}
+
+.nav{display:flex;gap:2px;padding:12px 16px 0;background:var(--deep);border-bottom:1px solid rgba(255,255,255,.06)}
+.nav-btn{flex:1;padding:9px 4px;font-size:11px;font-weight:500;color:var(--t3);background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;transition:all .15s;font-family:inherit;white-space:nowrap}
+.nav-btn:hover{color:var(--t2)}
+.nav-btn.active{color:var(--light);border-bottom-color:var(--core)}
+
+.screen{display:none;padding:20px 16px 24px}
+.screen.active{display:block}
+
+.clay-card{background:linear-gradient(145deg,var(--clay-a),var(--clay-b));border-radius:20px;box-shadow:var(--card-sh);padding:20px}
+.glass{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:14px 16px}
+.glass-sm{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:10px 14px}
+
+.badge{display:inline-flex;align-items:center;gap:5px;padding:4px 11px;border-radius:20px;font-size:11px;font-weight:600}
+.badge-purple{background:rgba(124,58,237,.25);color:var(--light);border:1px solid rgba(124,58,237,.35)}
+.badge-green{background:rgba(16,185,129,.2);color:#6ee7b7;border:1px solid rgba(16,185,129,.3)}
+.badge-warn{background:rgba(245,158,11,.15);color:#fcd34d;border:1px solid rgba(245,158,11,.3)}
+.badge-err{background:rgba(239,68,68,.15);color:#fca5a5;border:1px solid rgba(239,68,68,.3)}
+
+.lbl{font-size:10px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--t2)}
+.h1{font-size:20px;font-weight:700;color:var(--t1)}
+.h2{font-size:15px;font-weight:600;color:var(--t1)}
+.h3{font-size:13px;font-weight:500;color:var(--t1)}
+.sub{font-size:12px;color:var(--t3)}
+.accent{color:var(--light)}
+
+.prog-wrap{height:6px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden;margin-top:10px}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--core),var(--light));border-radius:99px;transition:width .4s}
+
+.task-row{display:flex;align-items:center;gap:12px;padding:11px 14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:12px;margin-bottom:8px;cursor:pointer;transition:all .15s}
+.task-row:hover{background:rgba(255,255,255,.07);border-color:rgba(124,58,237,.3)}
+.task-row.done{opacity:.55}
+.check{width:22px;height:22px;border-radius:8px;border:2px solid rgba(124,58,237,.45);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.check.on{background:var(--core);border-color:var(--core);box-shadow:var(--glow)}
+.check-icon{font-size:13px;color:#fff;display:none}
+.check.on .check-icon{display:block}
+.task-name{font-size:13px;color:var(--t1);flex:1;transition:all .2s}
+.task-row.done .task-name{text-decoration:line-through;color:var(--t3)}
+.task-time{font-size:11px;color:var(--t3);white-space:nowrap}
+.task-time.warn{color:var(--warn)}
+
+.btn-primary{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:13px;background:var(--core);color:#fff;font-size:14px;font-weight:600;border:none;border-radius:12px;cursor:pointer;box-shadow:var(--btn-sh);transition:all .15s;font-family:inherit}
+.btn-primary:hover{background:#6d28d9;transform:translateY(-1px)}
+.btn-ghost{padding:10px 18px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:var(--t2);font-size:13px;font-weight:500;border-radius:10px;cursor:pointer;font-family:inherit;transition:all .15s;white-space:nowrap}
+.btn-ghost:hover{background:rgba(124,58,237,.15);border-color:rgba(124,58,237,.35);color:var(--light)}
+.btn-ghost.disabled{opacity:.4;cursor:not-allowed}
+
+.stat-row{display:flex;gap:10px;margin-bottom:16px}
+.stat-box{flex:1;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:12px;text-align:center}
+.stat-num{font-size:22px;font-weight:700;color:var(--t1)}
+.stat-lbl{font-size:10px;color:var(--t3);margin-top:3px}
+
+.plan-input{width:100%;padding:11px 14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;color:var(--t1);font-size:13px;font-family:inherit;outline:none;transition:border-color .15s}
+.plan-input:focus{border-color:var(--core)}
+.plan-input::placeholder{color:var(--t4)}
+
+.reminder-overlay{background:rgba(10,5,30,.85);border-radius:20px;padding:28px;display:flex;flex-direction:column;align-items:center;text-align:center}
+
+.vid-player{background:#0a0512;border-radius:16px;overflow:hidden;position:relative}
+.vid-screen{width:100%;aspect-ratio:16/9;background:linear-gradient(160deg,#1a0a35,#0d0620);display:flex;align-items:center;justify-content:center;position:relative}
+.vid-icon{font-size:48px;color:rgba(124,58,237,.4)}
+.vid-overlay{background:linear-gradient(to top,rgba(10,5,30,.95) 0%,transparent 100%);padding:18px 20px 20px;position:relative}
+.vid-prog{height:4px;background:rgba(255,255,255,.1);border-radius:99px;margin-bottom:14px;cursor:not-allowed}
+.vid-prog-fill{height:100%;width:72%;background:linear-gradient(90deg,var(--core),var(--light));border-radius:99px}
+
+.sidebar-nav{display:flex;flex-direction:column;gap:4px}
+.snav-item{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;cursor:pointer;font-size:13px;color:var(--t3);transition:all .15s}
+.snav-item:hover{background:rgba(255,255,255,.05);color:var(--t2)}
+.snav-item.active{background:rgba(124,58,237,.2);color:var(--light)}
+.snav-item i{font-size:17px}
+
+.row{display:flex;gap:12px;align-items:flex-start}
+.col{display:flex;flex-direction:column;gap:12px}
+
+.compact-frame{background:var(--deep);border:1px solid rgba(124,58,237,.2);border-radius:16px;width:260px;overflow:hidden;margin:0 auto}
+.titlebar{height:34px;background:rgba(0,0,0,.3);display:flex;align-items:center;padding:0 12px;gap:8px;border-bottom:1px solid rgba(255,255,255,.05);cursor:move}
+.tb-dot{width:10px;height:10px;border-radius:50%}
+.tb-title{font-size:11px;color:var(--t3);margin-left:4px;flex:1;text-align:center}
+.tb-badge{width:8px;height:8px;border-radius:50%;background:var(--err)}
+
+.divider{height:1px;background:rgba(255,255,255,.06);margin:14px 0}
+</style>
+
+<h2 class="sr-only">Koliko — maquettes claymorphism sombre : 5 écrans de l'application de discipline personnelle</h2>
+
+<div class="app">
+  <div class="nav">
+    <button class="nav-btn active" onclick="show(0)">Aujourd'hui</button>
+    <button class="nav-btn" onclick="show(1)">Widget</button>
+    <button class="nav-btn" onclick="show(2)">Planifier</button>
+    <button class="nav-btn" onclick="show(3)">Rappel</button>
+    <button class="nav-btn" onclick="show(4)">Vidéo</button>
+  </div>
+
+  <div class="screen active" id="s0">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <div>
+        <div class="lbl" style="margin-bottom:4px">Lundi 24 juin 2025</div>
+        <div class="h1">Bonne journée, Christ-Joël</div>
+      </div>
+      <div class="badge badge-purple"><i class="ti ti-flame" aria-hidden="true"></i> 7 jours</div>
+    </div>
+
+    <div class="clay-card" style="margin-bottom:16px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+        <div>
+          <div class="lbl">Progression du jour</div>
+          <div class="h2" style="margin-top:4px">3 sur 5 complétées</div>
+        </div>
+        <div style="font-size:26px;font-weight:700;color:var(--light)">60%</div>
+      </div>
+      <div class="prog-wrap"><div class="prog-fill" style="width:60%"></div></div>
+      <div class="sub" style="margin-top:8px">2 obligations restantes avant déblocage</div>
+    </div>
+
+    <div style="margin-bottom:10px;display:flex;align-items:center;justify-content:space-between">
+      <div class="lbl">Obligations</div>
+      <div class="badge badge-err"><i class="ti ti-shield-off" aria-hidden="true" style="font-size:10px"></i> Blocage actif</div>
+    </div>
+
+    <div class="task-row done" onclick="toggleTask(this)">
+      <div class="check on"><span class="check-icon"><i class="ti ti-check" aria-hidden="true"></i></span></div>
+      <span class="task-name">Méditation</span>
+      <span class="task-time">07h00</span>
+      <div class="badge badge-green" style="font-size:10px;padding:3px 8px">fait</div>
+    </div>
+
+    <div class="task-row done" onclick="toggleTask(this)">
+      <div class="check on"><span class="check-icon"><i class="ti ti-check" aria-hidden="true"></i></span></div>
+      <span class="task-name">Sport 30 min</span>
+      <span class="task-time">08h00</span>
+      <div class="badge badge-green" style="font-size:10px;padding:3px 8px">fait</div>
+    </div>
+
+    <div class="task-row done" onclick="toggleTask(this)">
+      <div class="check on"><span class="check-icon"><i class="ti ti-check" aria-hidden="true"></i></span></div>
+      <span class="task-name">Révision FONCIRA</span>
+      <span class="task-time">10h00</span>
+      <div class="badge badge-green" style="font-size:10px;padding:3px 8px">fait</div>
+    </div>
+
+    <div class="task-row" onclick="toggleTask(this)">
+      <div class="check"><span class="check-icon"><i class="ti ti-check" aria-hidden="true"></i></span></div>
+      <span class="task-name">Lecture</span>
+      <span class="task-time warn">13h00 · reportée 1×</span>
+      <div class="badge badge-warn" style="font-size:10px;padding:3px 8px"><i class="ti ti-clock" aria-hidden="true" style="font-size:10px"></i> report</div>
+    </div>
+
+    <div class="task-row" onclick="toggleTask(this)">
+      <div class="check"><span class="check-icon"><i class="ti ti-check" aria-hidden="true"></i></span></div>
+      <span class="task-name">Anglais — shadowing 20 min</span>
+      <span class="task-time">18h00</span>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="glass-sm" style="display:flex;align-items:center;justify-content:space-between">
+      <div style="display:flex;align-items:center;gap:8px">
+        <i class="ti ti-shield" aria-hidden="true" style="font-size:16px;color:var(--err)"></i>
+        <span class="sub">Distractions interceptées</span>
+      </div>
+      <span style="font-size:15px;font-weight:700;color:var(--err)">4</span>
+    </div>
+
+    <div class="stat-row" style="margin-top:12px">
+      <div class="stat-box">
+        <div class="stat-num accent">7</div>
+        <div class="stat-lbl">streak jours</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num" style="color:var(--ok)">83%</div>
+        <div class="stat-lbl">taux 30 jours</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num" style="color:var(--warn)">07h12</div>
+        <div class="stat-lbl">1re obligation</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="screen" id="s1">
+    <div class="lbl" style="margin-bottom:12px;text-align:center">Fenêtre compacte flottante · 320×400px</div>
+
+    <div class="compact-frame">
+      <div class="titlebar">
+        <div class="tb-dot" style="background:#ff5f57"></div>
+        <div class="tb-dot" style="background:#febc2e"></div>
+        <div class="tb-dot" style="background:#28c840"></div>
+        <span class="tb-title">Koliko</span>
+        <div class="tb-badge"></div>
+      </div>
+
+      <div style="padding:14px 12px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+          <div class="lbl" style="font-size:9px">Aujourd'hui</div>
+          <div style="font-size:12px;font-weight:700;color:var(--light)">3/5</div>
+        </div>
+
+        <div class="prog-wrap" style="margin-bottom:12px;margin-top:0"><div class="prog-fill" style="width:60%"></div></div>
+
+        <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:8px;margin-bottom:6px;opacity:.55">
+          <div class="check on" style="width:18px;height:18px;border-radius:6px"><span class="check-icon" style="font-size:10px"><i class="ti ti-check" aria-hidden="true"></i></span></div>
+          <span style="font-size:11px;color:var(--t3);text-decoration:line-through;flex:1">Méditation</span>
+          <span style="font-size:10px;color:var(--t3)">07h00</span>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:8px;margin-bottom:6px;opacity:.55">
+          <div class="check on" style="width:18px;height:18px;border-radius:6px"><span class="check-icon" style="font-size:10px"><i class="ti ti-check" aria-hidden="true"></i></span></div>
+          <span style="font-size:11px;color:var(--t3);text-decoration:line-through;flex:1">Sport 30 min</span>
+          <span style="font-size:10px;color:var(--t3)">08h00</span>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:rgba(255,255,255,.04);border:1px solid rgba(124,58,237,.3);border-radius:8px;margin-bottom:6px">
+          <div class="check" style="width:18px;height:18px;border-radius:6px;border-color:rgba(124,58,237,.5)"></div>
+          <span style="font-size:11px;color:var(--t1);flex:1">Lecture</span>
+          <span style="font-size:10px;color:var(--warn)">13h00</span>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:8px;margin-bottom:12px">
+          <div class="check" style="width:18px;height:18px;border-radius:6px"></div>
+          <span style="font-size:11px;color:var(--t1);flex:1">Anglais</span>
+          <span style="font-size:10px;color:var(--t3)">18h00</span>
+        </div>
+
+        <div style="height:1px;background:rgba(255,255,255,.06);margin-bottom:12px"></div>
+
+        <button class="btn-primary" style="font-size:12px;padding:10px">
+          <i class="ti ti-calendar-plus" aria-hidden="true"></i> Planifier demain
+        </button>
+      </div>
+    </div>
+
+    <div class="sub" style="text-align:center;margin-top:14px">
+      <i class="ti ti-info-circle" aria-hidden="true" style="font-size:13px;vertical-align:-2px"></i>
+      Fenêtre alwaysOnTop · coin bas-droit · sans barre système
+    </div>
+  </div>
+
+  <div class="screen" id="s2">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <div>
+        <div class="lbl" style="margin-bottom:4px">Planification</div>
+        <div class="h1">Prépare demain</div>
+      </div>
+      <div class="badge badge-purple">Mardi 25 juin</div>
+    </div>
+
+    <div class="clay-card" style="margin-bottom:16px">
+      <div class="lbl" style="margin-bottom:10px">Nouvelle obligation</div>
+      <div style="display:flex;gap:8px;margin-bottom:8px">
+        <input class="plan-input" placeholder="Ex : méditation, révision..." style="flex:1"/>
+        <input class="plan-input" placeholder="07h00" style="width:80px"/>
+      </div>
+      <button class="btn-primary" style="padding:10px">
+        <i class="ti ti-plus" aria-hidden="true"></i> Ajouter
+      </button>
+    </div>
+
+    <div class="lbl" style="margin-bottom:10px;display:flex;align-items:center;justify-content:space-between">
+      <span>Obligations planifiées</span>
+      <span style="color:var(--t3);font-size:10px">4 / 7 max</span>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:10px;padding:11px 14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:12px;margin-bottom:8px">
+      <i class="ti ti-grip-vertical" aria-hidden="true" style="color:var(--t4);font-size:16px;cursor:grab"></i>
+      <span class="task-name">Méditation 15 min</span>
+      <span class="task-time">06h30</span>
+      <button style="background:none;border:none;color:var(--t4);cursor:pointer;padding:0;font-size:15px"><i class="ti ti-trash" aria-hidden="true"></i></button>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:10px;padding:11px 14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:12px;margin-bottom:8px">
+      <i class="ti ti-grip-vertical" aria-hidden="true" style="color:var(--t4);font-size:16px;cursor:grab"></i>
+      <span class="task-name">Sport 30 min</span>
+      <span class="task-time">07h30</span>
+      <button style="background:none;border:none;color:var(--t4);cursor:pointer;padding:0;font-size:15px"><i class="ti ti-trash" aria-hidden="true"></i></button>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:10px;padding:11px 14px;background:rgba(255,255,255,.04);border:1px solid rgba(124,58,237,.3);border-radius:12px;margin-bottom:8px">
+      <i class="ti ti-grip-vertical" aria-hidden="true" style="color:var(--core);font-size:16px;cursor:grab"></i>
+      <span class="task-name accent">Anglais — shadowing</span>
+      <span class="task-time">09h00</span>
+      <button style="background:none;border:none;color:var(--t4);cursor:pointer;padding:0;font-size:15px"><i class="ti ti-trash" aria-hidden="true"></i></button>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:10px;padding:11px 14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:12px;margin-bottom:16px">
+      <i class="ti ti-grip-vertical" aria-hidden="true" style="color:var(--t4);font-size:16px;cursor:grab"></i>
+      <span class="task-name">Lecture 30 min</span>
+      <span class="task-time">13h00</span>
+      <button style="background:none;border:none;color:var(--t4);cursor:pointer;padding:0;font-size:15px"><i class="ti ti-trash" aria-hidden="true"></i></button>
+    </div>
+
+    <button class="btn-primary">
+      <i class="ti ti-lock" aria-hidden="true"></i> Valider le plan
+    </button>
+  </div>
+
+  <div class="screen" id="s3">
+    <div class="lbl" style="margin-bottom:12px;text-align:center">Overlay de rappel · 480×280px · centré</div>
+
+    <div style="background:rgba(10,5,30,.85);border-radius:20px;padding:30px 24px">
+      <div class="reminder-overlay">
+        <div style="width:52px;height:52px;border-radius:16px;background:rgba(124,58,237,.2);border:1px solid rgba(124,58,237,.35);display:flex;align-items:center;justify-content:center;margin-bottom:14px">
+          <i class="ti ti-book" aria-hidden="true" style="font-size:24px;color:var(--light)"></i>
+        </div>
+
+        <div class="lbl" style="margin-bottom:6px">Il est 13h00</div>
+        <div class="h2" style="margin-bottom:4px;text-align:center">Lecture — 30 min</div>
+        <div class="sub" style="margin-bottom:20px">Tu es sur quelque chose d'important ?</div>
+
+        <button class="btn-primary" style="margin-bottom:10px;max-width:280px">
+          <i class="ti ti-player-play" aria-hidden="true"></i> Je commence maintenant
+        </button>
+
+        <div style="display:flex;gap:8px;max-width:280px;width:100%">
+          <button class="btn-ghost" style="flex:1">Reporter 30 min</button>
+          <button class="btn-ghost" style="flex:1;position:relative">
+            Reporter 1h
+            <div class="badge badge-warn" style="font-size:9px;padding:2px 6px;position:absolute;top:-8px;right:-4px">dernier</div>
+          </button>
+        </div>
+
+        <div class="sub" style="margin-top:14px;font-size:11px">
+          <i class="ti ti-info-circle" aria-hidden="true" style="font-size:12px;vertical-align:-2px"></i>
+          Report 1 sur 2 — disparaît à la prochaine tentative
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="screen" id="s4">
+    <div class="lbl" style="margin-bottom:12px;text-align:center">Lecteur de confrontation · plein écran</div>
+
+    <div class="vid-player">
+      <div class="vid-screen">
+        <div style="text-align:center">
+          <i class="ti ti-video" aria-hidden="true" style="font-size:44px;color:rgba(124,58,237,.35);display:block;margin-bottom:10px"></i>
+          <div style="font-size:12px;color:rgba(255,255,255,.2);font-style:italic">Ta vidéo de motivation</div>
+        </div>
+        <div style="position:absolute;top:12px;right:12px">
+          <div class="badge badge-err" style="font-size:10px">
+            <i class="ti ti-record-mail" aria-hidden="true" style="font-size:10px"></i> Live
+          </div>
+        </div>
+      </div>
+
+      <div class="vid-overlay">
+        <div class="vid-prog">
+          <div class="vid-prog-fill"></div>
+        </div>
+
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:14px">
+          <div style="flex:1">
+            <div class="lbl" style="margin-bottom:6px">Obligations restantes</div>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+              <i class="ti ti-book" aria-hidden="true" style="font-size:14px;color:var(--warn)"></i>
+              <span class="h3">Lecture</span>
+              <div class="badge badge-warn" style="font-size:9px;padding:2px 7px">reportée 1×</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <i class="ti ti-headphones" aria-hidden="true" style="font-size:14px;color:var(--t3)"></i>
+              <span class="h3">Anglais</span>
+              <div class="sub" style="font-size:10px">18h00</div>
+            </div>
+          </div>
+
+          <div style="text-align:right">
+            <div class="sub" style="font-size:10px;margin-bottom:4px">Interception</div>
+            <div class="badge badge-err" style="font-size:10px">
+              <i class="ti ti-brand-youtube" aria-hidden="true" style="font-size:10px"></i> YouTube
+            </div>
+          </div>
+        </div>
+
+        <button class="btn-primary btn-ghost disabled" style="opacity:.35;cursor:not-allowed;font-size:13px;padding:11px">
+          <i class="ti ti-arrow-left" aria-hidden="true"></i> Retourner au travail — disponible à la fin
+        </button>
+
+        <div class="sub" style="text-align:center;margin-top:10px;font-size:11px">
+          <i class="ti ti-alert-triangle" aria-hidden="true" style="font-size:12px;vertical-align:-2px;color:var(--err)"></i>
+          Fermer cette fenêtre relance la vidéo depuis le début
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function show(i){
+  document.querySelectorAll('.screen').forEach((s,j)=>{
+    s.classList.toggle('active',j===i)
+  });
+  document.querySelectorAll('.nav-btn').forEach((b,j)=>{
+    b.classList.toggle('active',j===i)
+  });
+}
+
+function toggleTask(row){
+  const isDone=row.classList.contains('done');
+  const check=row.querySelector('.check');
+  const badge=row.querySelector('.badge:last-child');
+  if(isDone){
+    row.classList.remove('done');
+    check.classList.remove('on');
+    if(badge&&badge.classList.contains('badge-green')){
+      badge.className='badge';
+      badge.innerHTML='';
+      badge.style.display='none';
+    }
+  } else {
+    row.classList.add('done');
+    check.classList.add('on');
+    if(badge){
+      badge.className='badge badge-green';
+      badge.style.display='inline-flex';
+      badge.style.fontSize='10px';
+      badge.style.padding='3px 8px';
+      badge.textContent='fait';
+    }
+  }
+  const done=document.querySelectorAll('#s0 .task-row.done').length;
+  const total=document.querySelectorAll('#s0 .task-row').length;
+  const pct=Math.round(done/total*100);
+  const fill=document.querySelector('#s0 .prog-fill');
+  if(fill) fill.style.width=pct+'%';
+  const h2=document.querySelector('#s0 .clay-card .h2');
+  if(h2) h2.textContent=done+' sur '+total+' complétées';
+  const pctEl=document.querySelector('#s0 .clay-card [style*="26px"]');
+  if(pctEl) pctEl.textContent=pct+'%';
+}
+</script>

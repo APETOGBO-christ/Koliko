@@ -1,0 +1,42 @@
+{
+  "name": "koliko",
+  "version": "1.0.0",
+  "description": "L'ordinateur devient un outil de discipline avant d'être un outil de divertissement.",
+  "main": "main/index.js",
+  "author": "Christ-Joël Apetogbo",
+  "license": "MIT",
+  "scripts": {
+    "dev:vite": "vite",
+    "dev:electron": "wait-on http://localhost:5173 && electron .",
+    "dev": "concurrently -k -n VITE,ELECTRON -c cyan,yellow \"npm run dev:vite\" \"npm run dev:electron\"",
+    "build": "vite build",
+    "dist": "npm run build && electron-builder",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "dependencies": {
+    "better-sqlite3": "^9.4.3",
+    "electron-auto-launch": "^5.0.5",
+    "electron-store": "^7.0.3",
+    "node-cron": "^2.0.3",
+    "sudo-prompt": "^9.2.1"
+  },
+  "devDependencies": {
+    "@dnd-kit/core": "^6.1.0",
+    "@dnd-kit/sortable": "^8.0.0",
+    "@dnd-kit/utilities": "^3.2.2",
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.18",
+    "concurrently": "^8.2.2",
+    "cross-env": "^7.0.3",
+    "electron": "^30.0.0",
+    "electron-builder": "^24.13.3",
+    "postcss": "^8.4.38",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.23.0",
+    "recharts": "^2.12.4",
+    "tailwindcss": "^3.4.3",
+    "vite": "^5.2.0",
+    "wait-on": "^7.2.0"
+  }
+}

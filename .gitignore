@@ -1,0 +1,9 @@
+node_modules/
+renderer/dist/
+dist-app/
+*.db
+*.db-wal
+*.db-shm
+.env
+.env.local
+*.log

@@ -1,0 +1,37 @@
+{
+  "appId": "com.koliko.app",
+  "productName": "Koliko",
+  "directories": {
+    "output": "dist-app"
+  },
+  "files": [
+    "main/**/*",
+    "renderer/dist/**/*",
+    "assets/**/*",
+    "package.json"
+  ],
+  "asar": true,
+  "asarUnpack": [
+    "node_modules/better-sqlite3/**/*"
+  ],
+  "win": {
+    "target": [{ "target": "nsis", "arch": ["x64"] }],
+    "requestedExecutionLevel": "requireAdministrator"
+  },
+  "nsis": {
+    "oneClick": false,
+    "allowToChangeInstallationDirectory": true,
+    "createDesktopShortcut": true,
+    "createStartMenuShortcut": true,
+    "installerLanguages": ["French", "English"]
+  },
+  "mac": {
+    "target": [{ "target": "dmg", "arch": ["arm64", "x64"] }],
+    "category": "public.app-category.productivity",
+    "darkModeSupport": true
+  },
+  "linux": {
+    "target": ["AppImage", "deb"],
+    "category": "Utility"
+  }
+}
